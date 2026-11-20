@@ -6,6 +6,7 @@
 - [Create the Alexa skill](#create-the-alexa-skill)
 - [Build the Lambda deployment archive](#build-the-lambda-deployment-archive)
 - [Optional S3 upload and Lambda deployment](#optional-s3-upload-and-lambda-deployment)
+- [Update Alexa skill listing metadata](#update-alexa-skill-listing-metadata)
 - [Echo Show visual interface](#echo-show-visual-interface)
 - [Spoken-command cheat sheet](#spoken-command-cheat-sheet)
 - [Test safely](#test-safely)
@@ -200,6 +201,55 @@ skill on the actual Echo Show before treating the deployment as verified.
 See [verification and rollback](../docs/aws-deployment.md#verify-and-test)
 for copy-and-paste commands and a recovery procedure.
 
+## Update Alexa skill listing metadata
+
+Alexa skill listing metadata is managed by **Amazon ASK CLI**, not AWS CLI.
+The public short/detailed descriptions for English (UK) are in
+[`skill_listing.en-GB.json`](skill_listing.en-GB.json); the human-readable
+version is [`SKILL_METADATA.md`](SKILL_METADATA.md).
+
+Install and authenticate the official
+[ASK CLI](https://developer.amazon.com/en-US/docs/alexa/smapi/quick-start-alexa-skills-kit-command-line-interface.html)
+separately from your AWS CLI authentication. For example, on a host with
+Node.js/npm and ASK CLI installed, run `ask configure` once and choose the
+Amazon developer account that **owns the existing skill**.
+
+In Git-ignored `alexa/deploy.local.conf`, add your existing skill ID and
+ASK profile (do not put live IDs or developer credentials in the public
+example file):
+
+```sh
+DEPLOY_ALEXA_SKILL_ID=amzn1.ask.skill.YOUR-EXISTING-SKILL-UUID
+DEPLOY_ASK_PROFILE=default
+```
+
+The same verified deploy script can then update **both** Lambda code and the
+Amazon development-stage skill listing:
+
+```bash
+cd ~/code/bindicator
+bash alexa/build.sh --deploy --update-skill-metadata
+```
+
+For a **non-mutating listing preview**, without Lambda upload:
+
+```bash
+python3 tools/update_alexa_skill_metadata.py \
+  --skill-id YOUR_EXISTING_SKILL_ID --profile default --check
+```
+
+The updater fetches the **full** existing skill manifest, keeps every
+setting except `en-GB` publishing `summary` and `description`,
+backs up the old manifest to private local storage and verifies the
+update after ASK CLI reports completion. It does **not** create a skill,
+update endpoints, publish the skill to the Store, deploy a new interaction
+model, or expose credentials. Only `--deploy --update-skill-metadata`
+performs the extra ASK operation; regular `--deploy` remains Lambda-only.
+
+Never send private manifest backups or ASK CLI credentials to GitHub.
+If Amazon rejects the update, inspect the ASK CLI error; Lambda may
+already have been deployed successfully.
+
 ## Echo Show visual interface
 
 The Echo Show interface uses **Alexa Presentation Language (APL)** and the
@@ -284,9 +334,9 @@ You must use the Alexa account enrolled as a tester/developer.
 
 The current recommended UK English Alexa skill listing text, including the
 public source/download URL, is maintained in
-[SKILL_METADATA.md](SKILL_METADATA.md). Changing that file does not
-automatically update the Alexa Developer Console; copy the descriptions
-to Distribution → Skill Preview and save them.
+[SKILL_METADATA.md](SKILL_METADATA.md). The recommended metadata can be deployed with
+`bash alexa/build.sh --deploy --update-skill-metadata` after ASK CLI
+configuration, or copied manually to Distribution → Skill Preview.
 
 
 The Lambda includes a **SimpleCard** with each spoken intent response, so
