@@ -106,3 +106,15 @@ def test_no_private_deployment_configuration_enters_lambda_bundle():
     script = SCRIPT.read_text()
     assert 'cp "$ROOT/alexa/deploy.local.conf"' not in script
     assert 'cp "$ROOT/alexa/deploy.conf"' not in script
+
+
+def test_metadata_update_is_explicit_and_runs_after_lambda():
+    script = SCRIPT.read_text()
+    assert "--update-skill-metadata" in script
+    assert 'UPDATE_SKILL_METADATA=false' in script
+    assert 'if [[ "$UPDATE_SKILL_METADATA" == true ]]; then' in script
+    assert 'DEPLOY_ALEXA_SKILL_ID' in script
+    assert 'tools/update_alexa_skill_metadata.py' in script
+    assert script.rfind('python3 "$ROOT/tools/update_alexa_skill_metadata.py"') > script.index(
+        'aws lambda wait function-updated'
+    )

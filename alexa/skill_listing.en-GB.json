@@ -1,0 +1,4 @@
+{
+  "summary": "Find out which bins are next with Bindicator, the open-source Philips Hue bin reminder.",
+  "description": "Bin Indicator is the Alexa companion to Bindicator, a free, open-source, self-hosted bin collection reminder for Philips Hue lighting.\n\nAsk Bin Buddy which bins are next, check collection dates, preview reminders and acknowledge when the bins have been put out. Compatible Echo Show devices can also display collection information.\n\nBindicator is released under the GNU General Public License v3. Source code, installation instructions, documentation and issue reporting are available at:\n\nhttps://github.com/accidentalskeleton/bindicator\n\nThis Alexa skill requires your own configured Bindicator installation and associated integrations. It is not a hosted bin collection service."
+}
