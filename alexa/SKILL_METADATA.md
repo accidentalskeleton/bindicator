@@ -2,8 +2,10 @@
 
 These are the recommended UK English publishing details for the **Bin Indicator**
 Alexa skill (spoken invocation name: **Bin Buddy**). They are not part of the
-Lambda package or interaction model. Editing this file alone **does not**
-change the live skill in the Amazon Developer Console.
+Lambda package or interaction model. The deployable JSON source is [skill_listing.en-GB.json](skill_listing.en-GB.json).
+Editing this document alone **does not** change the live skill in the
+Amazon Developer Console. Run `bash alexa/build.sh --deploy --update-skill-metadata`
+after configuring ASK CLI and your private skill ID to publish the JSON listing.
 
 ## Short description
 
