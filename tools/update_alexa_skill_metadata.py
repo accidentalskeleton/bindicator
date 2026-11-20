@@ -18,7 +18,7 @@ import time
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LISTING = PROJECT_ROOT / "alexa" / "skill_listing.en-GB.json"
-SKILL_ID_PATTERN = re.compile(r"^amzn1\\.ask\\.skill\\.[0-9a-fA-F-]{36}$")
+SKILL_ID_PATTERN = re.compile(r"^amzn1[.]ask[.]skill[.][0-9a-fA-F-]{36}$")
 
 
 def ask_cli(*arguments):
