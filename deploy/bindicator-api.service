@@ -1,0 +1,26 @@
+[Unit]
+Description=Bindicator authenticated loopback HTTP API
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=bindicator
+Group=bindicator
+ExecStart=/opt/bindicator/.venv/bin/python -m bindicator.api --port 18050
+WorkingDirectory=/var/lib/bindicator
+StateDirectory=bindicator
+StateDirectoryMode=2770
+UMask=0007
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

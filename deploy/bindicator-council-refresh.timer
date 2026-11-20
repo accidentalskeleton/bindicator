@@ -1,0 +1,11 @@
+[Unit]
+Description=Check if active calendar dates need refreshing
+
+[Timer]
+OnCalendar=*-*-* 07:10:00 Europe/London
+Persistent=true
+RandomizedDelaySec=15min
+Unit=bindicator-council-refresh.service
+
+[Install]
+WantedBy=timers.target

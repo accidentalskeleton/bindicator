@@ -1,0 +1,28 @@
+{
+  "schema": "bindicator-cloudflare-desired-state-v1",
+  "notes": "Public non-secret example; replace identifiers in private local configuration. Do not import existing resources without checking their IDs.",
+  "account_id": "YOUR_CLOUDFLARE_ACCOUNT_ID",
+  "hostname": "bins.example.com",
+  "tunnel": {
+    "name": "bindicator-tunnel",
+    "origin_service": "http://127.0.0.1:18050",
+    "http_host_header": "127.0.0.1:18050",
+    "lan_dashboard_must_remain_private": true,
+    "lan_dashboard_port": 18051
+  },
+  "access": {
+    "application_id": "YOUR_ACCESS_APPLICATION_ID",
+    "policy_id": "YOUR_ACCESS_POLICY_ID",
+    "policy_name": "Bindicator Alexa",
+    "policy_decision": "non_identity",
+    "service_token_id": "YOUR_SERVICE_TOKEN_ID",
+    "service_token_name": "bindicator-alexa",
+    "require_rules": [],
+    "exclude_rules": [],
+    "must_not_allow_everyone_or_bypass": true
+  },
+  "verification": {
+    "unauthenticated_status_should_be_denied": true,
+    "api_health_local_url": "http://127.0.0.1:18050/api/v1/health"
+  }
+}

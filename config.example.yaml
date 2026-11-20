@@ -1,0 +1,32 @@
+# A fresh Bindicator installation starts without hardcoded Hue addresses.
+# Run: sudo bindicator --setup
+# Bridge discovery, pairing and lamp selection are interactive and local.
+# Bin names below are EXAMPLES; replace them with your exact Zoho event titles.
+calendar:
+  events:
+    "BinDay - Recycling": blue
+    "BinDay - Household waste": orange
+    "BinDay - Garden Waste": green
+
+# Optional North Yorkshire Council lookup. Set UPRN locally in the LAN Admin UI.
+# Leave disabled until Check council dates succeeds and event mappings match.
+north_yorkshire:
+  enabled: false
+  uprn: ""
+  refresh_days: 7            # Automatic council refresh interval (1-90 days)
+
+schedule:
+  start: "18:00"       # Evening before collection day (Europe/London)
+  restore: "09:00"     # Collection morning (Europe/London)
+
+hue:
+  bridges: {}               # Populated automatically by --setup
+  lights: []                # Selected automatically by --setup
+  mode: spread              # Or priority (one colour), cycle (rotate one colour per minute)\n                            # Define no more than five indication colours
+
+colors:
+  blue:   {x: 0.17, y: 0.08}
+  orange: {x: 0.57, y: 0.39}
+  green:  {x: 0.21, y: 0.65}
+
+priority: [orange, blue, green]

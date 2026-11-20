@@ -1,0 +1,122 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "bin buddy",
+      "intents": [
+        {
+          "name": "PauseIntent",
+          "samples": [
+            "pause",
+            "pause reminders",
+            "pause bin reminders",
+            "stop bin reminders",
+            "turn off bin reminders"
+          ]
+        },
+        {
+          "name": "ResumeIntent",
+          "samples": [
+            "resume",
+            "resume reminders",
+            "resume bin reminders",
+            "enable bin reminders",
+            "turn on bin reminders"
+          ]
+        },
+        {
+          "name": "ToggleIntent",
+          "samples": [
+            "toggle",
+            "toggle reminders",
+            "toggle bin reminders",
+            "switch the reminder state"
+          ]
+        },
+        {
+          "name": "StatusIntent",
+          "samples": [
+            "status",
+            "what is the status",
+            "are reminders enabled",
+            "are bin reminders paused",
+            "are bin reminders on"
+          ]
+        },
+        {
+          "name": "NextCollectionIntent",
+          "samples": [
+            "what bins are next",
+            "what is the next bin collection",
+            "which bins are next",
+            "when is the next bin collection",
+            "what bins go out next",
+            "tell me the next bins"
+          ]
+        },
+        {
+          "name": "ShowNextIntent",
+          "slots": [
+            {
+              "name": "duration",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "show the next bins for {duration} seconds",
+            "show the bins for {duration} seconds",
+            "light up the bins for {duration} seconds",
+            "show the next collection for {duration} seconds",
+            "show the next bins",
+            "show the bins",
+            "show the next collection"
+          ]
+        },
+        {
+          "name": "ShowPersistentIntent",
+          "samples": [
+            "show the bins until collection day",
+            "show the next bins until collection day",
+            "keep the bin lights on until collection day",
+            "show the next collection until collection day",
+            "keep the bins displayed",
+            "start the bin reminder"
+          ]
+        },
+        {
+          "name": "BinsOutIntent",
+          "samples": [
+            "i have put the bins out",
+            "the bins are out",
+            "i've put the bins out",
+            "bins are out",
+            "i put the bins out",
+            "the bins have been put out",
+            "stop the bin reminder",
+            "clear the bin reminder"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=Bindicator active calendar calendar refresh
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=bindicator
+Group=bindicator
+ExecStart=/opt/bindicator/.venv/bin/python -m bindicator.council_refresh_job
+WorkingDirectory=/var/lib/bindicator
+StateDirectory=bindicator
+StateDirectoryMode=2770
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+TimeoutStartSec=120

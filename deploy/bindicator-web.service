@@ -1,0 +1,26 @@
+[Unit]
+Description=Bindicator LAN-only HTTPS management interface
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=bindicator
+Group=bindicator
+EnvironmentFile=/etc/bindicator/web.env
+ExecStart=/opt/bindicator/.venv/bin/python -m bindicator.web --host ${BINDICATOR_LAN_IP} --port 18051 --allowed-hostname ${BINDICATOR_LAN_HOSTNAME}
+WorkingDirectory=/var/lib/bindicator
+UMask=0007
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/etc/bindicator /var/lib/bindicator
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bindicator"
+version = "0.1.0"
+description = "Zoho Calendar-driven Philips Hue bin collection reminders"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = [
+  "icalendar>=5.0,<8",
+  "recurring-ical-events>=3.0,<5",
+  "PyYAML>=6.0,<7",
+  "requests>=2.31,<3",
+  "beautifulsoup4>=4.12,<5",
+  "ruamel.yaml>=0.18,<0.19",
+  "zeroconf>=0.131,<1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "ask-sdk-core>=1.19,<2", "ask-sdk-model>=1,<2"]
+
+[project.scripts]
+bindicator = "bindicator.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+bindicator = ["static/*.png", "static/*.ico", "static/*.webp"]

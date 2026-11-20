@@ -1,0 +1,8 @@
+# Keep the ASK SDK on the tested major release.
+ask-sdk-core>=1.19,<2
+# Imported directly by the Lambda for Alexa companion-app cards.
+ask-sdk-model>=1,<2
+# The ASK SDK does not cap python-dateutil, but Bindicator's
+# recurring-ical-events requires 2.x. Avoid installing 4.x in the
+# Lambda bundle or confusing a shared local build environment.
+python-dateutil>=2.9,<3
