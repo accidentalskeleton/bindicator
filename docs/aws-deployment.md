@@ -179,6 +179,22 @@ target settings and tests**:
 bash alexa/build.sh --deploy
 ```
 
+To also update the **existing UK English Alexa skill listing** with the
+public Bindicator GitHub link, first configure the Amazon ASK CLI separately
+(`ask configure`), then add `DEPLOY_ALEXA_SKILL_ID` and optionally
+`DEPLOY_ASK_PROFILE` to your **private** `alexa/deploy.local.conf`. Run:
+
+```bash
+bash alexa/build.sh --deploy --update-skill-metadata
+```
+
+This option submits only `en-GB` publishing description and summary changes
+using the complete skill manifest fetched from Amazon, after the verified
+Lambda update. It preserves all other live skill settings and backs up the
+previous manifest in a local, private directory. See
+[Alexa metadata instructions](../alexa/README.md#update-alexa-skill-listing-metadata).
+The ordinary `--deploy` command continues to update Lambda **only**.
+
 This performs all of the following, stopping on an error:
 
 1. Reads the private `alexa/deploy.local.conf` (non-secret target identifiers).
