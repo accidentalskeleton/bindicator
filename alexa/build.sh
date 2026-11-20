@@ -4,11 +4,12 @@ set -euo pipefail
 
 usage() {
     cat <<'HELP'
-Usage: bash alexa/build.sh [--deploy] [--s3-bucket BUCKET [--s3-key KEY]] [--lambda-function NAME]
+Usage: bash alexa/build.sh [--deploy [--update-skill-metadata]] [--s3-bucket BUCKET [--s3-key KEY]] [--lambda-function NAME]
        bash alexa/build.sh --help
 
 Without flags, build dist/bindicator-alexa.zip only.
 --deploy               Build/upload/update the verified Bindicator Lambda using local alexa/deploy.local.conf.
+--update-skill-metadata With --deploy, update only the existing en-GB Alexa skill listing via ASK CLI.
 --s3-bucket BUCKET     Upload the built archive to this existing private bucket.
 --s3-key KEY           Optional S3 object key. Default: a SHA256-based unique key.
 --lambda-function NAME Update this Lambda from the uploaded S3 object (requires --s3-bucket).
@@ -23,6 +24,7 @@ S3_BUCKET=""
 S3_KEY=""
 LAMBDA_FUNCTION=""
 DEPLOY=false
+UPDATE_SKILL_METADATA=false
 ROOT="$(cd -- "$(dirname -- "$0")/.." && pwd)"
 while (($#)); do
     case "$1" in
@@ -30,6 +32,8 @@ while (($#)); do
             usage; exit 0 ;;
         --deploy)
             DEPLOY=true; shift ;;
+        --update-skill-metadata)
+            UPDATE_SKILL_METADATA=true; shift ;;
         --s3-bucket|--s3-key|--lambda-function)
             option="$1"
             if (($# < 2)) || [[ -z "$2" || "$2" == --* ]]; then
@@ -49,6 +53,11 @@ while (($#)); do
             exit 2 ;;
     esac
 done
+
+if [[ "$UPDATE_SKILL_METADATA" == true && "$DEPLOY" != true ]]; then
+    echo "--update-skill-metadata requires --deploy." >&2
+    exit 2
+fi
 
 if [[ "$DEPLOY" == true ]]; then
     # Locally configured target identifiers. AWS credentials come from AWS CLI.
@@ -70,6 +79,26 @@ if [[ "$DEPLOY" == true ]]; then
     export AWS_DEFAULT_REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-$DEPLOY_REGION}}"
     if [[ "$AWS_DEFAULT_REGION" != "$DEPLOY_REGION" ]]; then
         echo "Refusing --deploy: configured AWS region is not $DEPLOY_REGION." >&2
+        exit 2
+    fi
+fi
+
+if [[ "$UPDATE_SKILL_METADATA" == true ]]; then
+    if [[ -z "${DEPLOY_ALEXA_SKILL_ID:-}" ]]; then
+        echo "Set DEPLOY_ALEXA_SKILL_ID in private alexa/deploy.local.conf." >&2
+        exit 2
+    fi
+    if ! command -v ask >/dev/null 2>&1; then
+        echo "Amazon ASK CLI is required: install it and run ask configure." >&2
+        exit 2
+    fi
+    if ! command -v python3 >/dev/null 2>&1; then
+        echo "Python 3 is required to update the Alexa skill listing." >&2
+        exit 2
+    fi
+    # Fail before uploading a Lambda if metadata configuration is malformed.
+    if ! python3 -c 'import re,sys; sys.exit(0 if re.fullmatch(r"amzn1[.]ask[.]skill[.][0-9a-fA-F-]{36}", sys.argv[1]) else 1)' "$DEPLOY_ALEXA_SKILL_ID"; then
+        echo "Invalid DEPLOY_ALEXA_SKILL_ID." >&2
         exit 2
     fi
 fi
@@ -150,4 +179,13 @@ if [[ -n "$S3_BUCKET" ]]; then
         aws lambda wait function-updated --function-name "$LAMBDA_FUNCTION"
         echo "Lambda code update completed for $LAMBDA_FUNCTION"
     fi
+fi
+
+# Publishing metadata is independently authenticated via ASK CLI/SMAPI, not AWS.
+# It runs only after a successful Lambda deployment; plain --deploy is unchanged.
+if [[ "$UPDATE_SKILL_METADATA" == true ]]; then
+    echo "Updating existing Alexa skill en-GB listing metadata"
+    python3 "$ROOT/tools/update_alexa_skill_metadata.py" \
+        --skill-id "$DEPLOY_ALEXA_SKILL_ID" \
+        --profile "${DEPLOY_ASK_PROFILE:-default}"
 fi
