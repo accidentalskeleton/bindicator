@@ -35,6 +35,8 @@ install -d -o root -g bindicator -m 2770 /etc/bindicator
 chmod 2770 /var/lib/bindicator /etc/bindicator
 cp -a "$SRC_DIR/src" /opt/bindicator/
 install -m 0644 "$SRC_DIR/pyproject.toml" /opt/bindicator/pyproject.toml
+# PEP 639 license-files metadata requires the file in the build root.
+install -m 0644 "$SRC_DIR/LICENSE" /opt/bindicator/LICENSE
 
 if [[ ! -f /etc/bindicator/config.yaml ]]; then
     install -o root -g bindicator -m 0660 \
