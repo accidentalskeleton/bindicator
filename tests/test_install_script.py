@@ -28,3 +28,15 @@ systemctl() {
         "bindicator.timer", "bindicator-api.service", "bindicator-web.service",
         "bindicator-council-refresh.timer"
     ]
+
+
+def test_installer_copies_license_required_by_package_metadata():
+    root = Path(__file__).resolve().parents[1]
+    script = (root / "deploy" / "install.sh").read_text()
+    package = (root / "pyproject.toml").read_text()
+    assert 'license = "GPL-3.0-only"' in package
+    assert 'license-files = ["LICENSE"]' in package
+    assert 'install -m 0644 "$SRC_DIR/LICENSE" /opt/bindicator/LICENSE' in script
+    assert script.index('install -m 0644 "$SRC_DIR/LICENSE" /opt/bindicator/LICENSE') < script.index(
+        '/opt/bindicator/.venv/bin/pip install'
+    )

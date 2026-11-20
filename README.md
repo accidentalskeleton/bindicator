@@ -60,11 +60,18 @@ provider engine. It runs on a machine available 24/7, such as the Bindicator hos
 
 ## Install and upgrade
 
-**Requirements:** Debian 13 or compatible Linux, Python 3.11+, systemd,
-working network access, and Philips Hue Bridges/lights for reminders.
+**Requirements:** Debian 13 or compatible Linux with systemd, Python 3.11+,
+Python virtual-environment support (`python3-venv` or matching
+`python3.X-venv`), network access, and Philips Hue Bridges/lights for
+lighting reminders. The installer requires root privileges, sets up a
+restricted service account and enables the required systemd units. Make
+sure you trust this repository before running the installer as root.
 Run from a trusted account on the Bindicator host:
 
 ```bash
+sudo apt-get update
+sudo apt-get install -y git python3 python3-venv
+
 git clone https://github.com/accidentalskeleton/bindicator.git ~/code/bindicator
 cd ~/code/bindicator
 sudo bash deploy/install.sh
@@ -78,6 +85,9 @@ git switch main
 git pull --ff-only origin main
 sudo bash deploy/install.sh
 ```
+
+The installer installs its own Python virtual environment and dependencies;
+no developer `.venv` is needed for the normal service installation.
 
 **The installer enables and starts** `bindicator.timer`,
 `bindicator-council-refresh.timer` (legacy name; refreshes any active source),
@@ -208,10 +218,11 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-The local test suite runs on supported Python versions. GitHub Actions workflows
-may be disabled temporarily to avoid CI usage; run the tests on the Bindicator host
-before installing or deploying. A passing suite does not verify AWS or Echo
-Show hardware behaviour.
+A lightweight read-only GitHub Actions job runs on pull requests to `main`
+using the standard Linux runner, with an optional manual trigger. It does not
+install the service or access real Hue, calendar or AWS credentials. Run the
+suite locally before installing or deploying; passing tests do not verify
+AWS or Echo Show hardware behaviour.
 To build another council integration, start with the
 [calendar-provider walkthrough](docs/calendar-providers.md#walkthrough-add-a-new-council-provider).
 

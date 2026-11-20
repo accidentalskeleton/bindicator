@@ -1,32 +1,39 @@
-name: Tests
+name: Pull request tests
 
 on:
-  # Automatic Actions disabled while CI minutes/credits are exhausted.
-  # Re-enable push and pull_request triggers when the billing limit resets.
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: bindicator-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  python:
+  regression:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.13"]
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install project and test dependencies
         run: python -m pip install -e ".[test]"
-      - name: Test
+      - name: Run regression suite
         run: python -m pytest -q
-      - name: Install Alexa Lambda SDK
-        run: python -m pip install -r alexa/requirements.txt
-      - name: Verify Alexa Lambda imports and skill ID guard
+      - name: Check installer and packaging scripts
+        run: bash -n deploy/install.sh deploy/setup-lan-web.sh alexa/build.sh
+      - name: Compile Python source
+        run: python -m compileall -q src alexa
+      - name: Verify Alexa Lambda import
         env:
           ALEXA_SKILL_ID: amzn1.ask.skill.00000000-0000-0000-0000-000000000001
         run: python -c 'from alexa.lambda_function import lambda_handler; assert callable(lambda_handler)'
-      - name: Check installer and Alexa packaging syntax
-        run: bash -n deploy/install.sh deploy/setup-lan-web.sh alexa/build.sh
-      - name: Compile
-        run: python -m compileall -q src alexa
