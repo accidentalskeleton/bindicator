@@ -282,6 +282,13 @@ You must use the Alexa account enrolled as a tester/developer.
 
 ## Alexa app visual cards and project link
 
+The current recommended UK English Alexa skill listing text, including the
+public source/download URL, is maintained in
+[SKILL_METADATA.md](SKILL_METADATA.md). Changing that file does not
+automatically update the Alexa Developer Console; copy the descriptions
+to Distribution → Skill Preview and save them.
+
+
 The Lambda includes a **SimpleCard** with each spoken intent response, so
 compatible Alexa companion-app activity views can display the same collection
 date, collection type or action confirmation that Alexa says. The cards do not
