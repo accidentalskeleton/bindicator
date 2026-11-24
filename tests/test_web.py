@@ -1130,5 +1130,6 @@ priority: [blue]
     secrets = tmp_path / "secrets.env"
     secrets.write_text("")
     result = Management(config_file, secrets, tmp_path).overview()
-    assert result["application_version"] == version("bindicator")
+    from bindicator.build_info import display_version
+    assert result["application_version"] == display_version()
     assert "coffee" not in result
