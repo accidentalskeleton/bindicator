@@ -203,7 +203,7 @@ code{color:#c0e1ee}footer{font-size:.85rem;color:#a9bbca}
 <a href="https://github.com/accidentalskeleton/bindicator/issues" target="_blank" rel="noopener noreferrer">Report a problem or suggest a feature</a>
 <a href="https://github.com/accidentalskeleton/bindicator/releases" target="_blank" rel="noopener noreferrer">Releases</a>
 </div>
-<p class="small">The version shown is the installed Python package version. Updates and source revisions are available on GitHub.</p>
+<p class="small">The version includes the installed Git commit when available; package version alone does not identify a source revision.</p>
 </section>
 </div>
 <div id="panel-coffee" class="tab" role="tabpanel" aria-labelledby="tab-coffee" hidden>
