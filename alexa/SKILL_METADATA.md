@@ -29,6 +29,23 @@ https://github.com/accidentalskeleton/bindicator
 This Alexa skill requires your own configured Bindicator installation and
 associated integrations. It is not a hosted bin collection service.
 
+## Skill preview example phrases
+
+Use these three **Example Phrases** for the English (UK) skill listing.
+The **displayed skill name** is **Bin Indicator**, but the **spoken invocation
+name** is **bin buddy**. Do not use "bin dicator" or "bindicator" as the invocation
+name in these examples.
+
+1. **Alexa, ask Bin Buddy what bins are next**
+2. **Alexa, ask Bin Buddy when is the next bin collection**
+3. **Alexa, tell Bin Buddy the bins are out**
+
+These are full phrases for the Alexa **Distribution → Skill Preview** listing,
+not sample utterances to paste into the interaction model. The model already
+uses `"invocationName": "bin buddy"` in
+[`interaction-model-en-GB.json`](interaction-model-en-GB.json); see
+[`COMMANDS.md`](COMMANDS.md) for other supported spoken commands.
+
 ## Where to update the Alexa skill
 
 In the [Alexa Developer Console](https://developer.amazon.com/alexa/console/ask):
@@ -36,9 +53,10 @@ In the [Alexa Developer Console](https://developer.amazon.com/alexa/console/ask)
 1. Open your existing **Bin Indicator** skill. Do not create a new skill.
 2. Select **Distribution → Skill Preview → English (UK)**.
 3. Set **Short Description** and **Detailed Description** to the text above.
-4. Save the details; keep the existing skill ID, invocation name, backend
+4. Replace the three **Example Phrases** with the Bin Buddy phrases above.
+5. Save the details; keep the existing skill ID, invocation name, backend
    endpoint, skill icons, privacy fields and other publishing settings.
-5. Preview the skill listing in the Alexa app. An unsubmitted development skill
+6. Preview the skill listing in the Alexa app. An unsubmitted development skill
    will not automatically appear as a public Alexa Skills Store listing.
 
 The manifest JSON equivalent of Detailed Description is
