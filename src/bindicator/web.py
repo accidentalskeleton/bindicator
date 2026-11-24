@@ -205,15 +205,12 @@ class Management:
         return config
 
     def overview(self) -> dict:
-        from importlib.metadata import PackageNotFoundError, version
+        from .build_info import display_version
         from .calendar_engine import cache_status
         from .calendar_providers import active_source, registered_providers
         config = self._config()
         pool = BridgePool(config["hue"])
-        try:
-            application_version = version("bindicator")
-        except PackageNotFoundError:
-            application_version = "development"
+        application_version = display_version()
         return {
             "application_version": application_version,
             "mode": config["hue"]["mode"],
