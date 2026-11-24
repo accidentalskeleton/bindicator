@@ -32,4 +32,4 @@ where = ["src"]
 testpaths = ["tests"]
 
 [tool.setuptools.package-data]
-bindicator = ["static/*.png", "static/*.ico", "static/*.webp"]
+bindicator = ["static/*.png", "static/*.ico", "static/*.webp", "_build_info.json"]
