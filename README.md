@@ -6,6 +6,12 @@ Debian/Linux. It reads collection dates from **North Yorkshire Council**,
 other trusted installed calendar-provider plugins. It then uses your chosen
 **Philips Hue lights** to indicate the next collection.
 
+The Help tab reports the installed package version and, when deployed from a
+Git checkout, the installed Bindicator Git commit (for example,
+`0.1.0 (abcdef0)`). The installer captures that revision at deployment
+time without changing the package version. A build without Git metadata
+continues to show only the package version.
+
 The application has a LAN-only HTTPS dashboard, authenticated local API,
 optional Alexa integration, multi-Bridge Hue support and a shared calendar
 provider engine. It runs on a machine available 24/7, such as the Bindicator host.
