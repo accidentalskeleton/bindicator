@@ -214,8 +214,13 @@ class Management:
             application_version = version("bindicator")
         except PackageNotFoundError:
             application_version = "development"
+        try:
+            from ._build_info import BUILD_COMMIT
+        except ImportError:
+            BUILD_COMMIT = "unknown"
         return {
             "application_version": application_version,
+            "application_commit": BUILD_COMMIT,
             "mode": config["hue"]["mode"],
             "schedule": config["schedule"],
             "bridges": [{"name": n, "host": pool.bridges[n]["host"],
