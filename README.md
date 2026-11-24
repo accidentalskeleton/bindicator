@@ -106,7 +106,10 @@ Important paths:
 | `/etc/systemd/system/bindicator*.service` and `*.timer` | System services |
 
 Upgrades retain your local configuration, secrets and existing verified
-calendar caches.
+calendar caches. When installing from a Git checkout, the installer records
+the exact source commit inside the installed package. The Help tab shows,
+for example, `0.1.0 (755a4b2)`; tarball installs without Git metadata show
+only the package version. This does not require Git at runtime.
 
 ## First-time configuration
 
@@ -142,7 +145,7 @@ The dashboard has eight tabs in order:
 | **Colours** | Colour picker and priority order |
 | **Calendars** | Active source, shared refresh interval, manual refresh and provider credentials |
 | **Mapping** | Searchable event-to-colour multi-select; several titles can share a colour |
-| **Help** | Installed Bindicator version, GitHub project, documentation, releases and issues |
+| **Help** | Installed Bindicator package version and source Git commit, GitHub project, documentation, releases and issues |
 | **☕ Coffee** | Optional Buy Me a Coffee support link, matching Lyrion Carousel |
 
 North Yorkshire and iCalendar are the two built-in sources. Adding a trusted
