@@ -52,6 +52,20 @@ Cloudflare settings. An invocation-name-only change does **not** require
 rebuilding or uploading the Lambda ZIP. After the build, test
 "open bin buddy" in the simulator and on the enrolled Echo device.
 
+**Alexa skill listing example phrases:** In the Developer Console, open
+**Distribution → Skill Preview → English (UK)** and set these three
+**Example Phrases** (in addition to the short and detailed descriptions):
+
+1. **Alexa, ask Bin Buddy what bins are next**
+2. **Alexa, ask Bin Buddy when is the next bin collection**
+3. **Alexa, tell Bin Buddy the bins are out**
+
+The public skill name can remain **Bin Indicator**, but all spoken listing
+examples must use **Bin Buddy** as the invocation name—not "bin dicator".
+These are complete listing examples, **not** interaction-model sample
+utterances. See [SKILL_METADATA.md](SKILL_METADATA.md) for the complete
+manual listing-update procedure and GitHub repository description.
+
 The utterances are mapped to these handlers (examples are command fragments;
 see the exact complete spoken phrases in [COMMANDS.md](COMMANDS.md)):
 
