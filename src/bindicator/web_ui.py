@@ -567,7 +567,7 @@ function renderUpcoming(collections){
 let lamps=[];let configuredLights=[];
 async function refresh(){try{const [v,upcoming]=await Promise.all([request("/manage/overview"),request("/manage/upcoming")]);
  renderUpcoming(upcoming);
- $("bindicatorversion").textContent=(v.application_version||"unknown")+(v.application_commit&&v.application_commit!=="unknown"?" ("+v.application_commit+")":"");
+ $("bindicatorversion").textContent=v.application_version||"unknown";
  const s=v.status;$("status").textContent=(s.paused?"Paused":"Active")+" · "+s.indicator_count+" active indicator(s)";
  renderNextCollection(upcoming);
  $("mode").value=v.mode;priorityOrder=[...v.priority];priorityPalette=v.colour_xy;renderPriority();
