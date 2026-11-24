@@ -54,7 +54,9 @@ else
     # Never keep a stale commit from a previous install.
     rm -f /opt/bindicator/src/bindicator/_build_info.json
 fi
-chmod 0644 /opt/bindicator/src/bindicator/_build_info.json 2>/dev/null || true
+if [[ -f /opt/bindicator/src/bindicator/_build_info.json ]]; then
+    chmod 0644 /opt/bindicator/src/bindicator/_build_info.json
+fi
 
 if [[ ! -f /etc/bindicator/config.yaml ]]; then
     install -o root -g bindicator -m 0660 \
