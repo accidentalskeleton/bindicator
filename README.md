@@ -108,7 +108,7 @@ Important paths:
 Upgrades retain your local configuration, secrets and existing verified
 calendar caches. When installing from a Git checkout, the installer records
 the exact source commit inside the installed package. The Help tab shows,
-for example, `0.1.0 (755a4b2)`; tarball installs without Git metadata show
+for example, `0.1.0 (abcdef0)`; tarball installs without Git metadata show
 only the package version. This does not require Git at runtime.
 
 ## First-time configuration
