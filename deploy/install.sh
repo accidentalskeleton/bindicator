@@ -37,6 +37,17 @@ cp -a "$SRC_DIR/src" /opt/bindicator/
 install -m 0644 "$SRC_DIR/pyproject.toml" /opt/bindicator/pyproject.toml
 # PEP 639 license-files metadata requires the file in the build root.
 install -m 0644 "$SRC_DIR/LICENSE" /opt/bindicator/LICENSE
+# Record the exact Bindicator source revision in the installed Python package.
+# The generated module is not committed: each install captures its own checkout.
+BUILD_COMMIT="unknown"
+if command -v git >/dev/null 2>&1 && git -C "$SRC_DIR" rev-parse --is-inside-work-tree 2>/dev/null | grep -qx true; then
+    BUILD_COMMIT="$(git -C "$SRC_DIR" rev-parse --short=7 HEAD 2>/dev/null || echo unknown)"
+fi
+if [[ ! "$BUILD_COMMIT" =~ ^[0-9a-f]{7,40}$ ]]; then
+    BUILD_COMMIT="unknown"
+fi
+printf 'BUILD_COMMIT = "%s"\n' "$BUILD_COMMIT" > /opt/bindicator/src/bindicator/_build_info.py
+chmod 0644 /opt/bindicator/src/bindicator/_build_info.py
 
 if [[ ! -f /etc/bindicator/config.yaml ]]; then
     install -o root -g bindicator -m 0660 \
