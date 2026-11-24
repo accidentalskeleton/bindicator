@@ -1110,7 +1110,8 @@ def test_help_and_coffee_tabs_include_actual_links_and_installed_version():
     ):
         assert url in help_panel
     assert 'id="bindicatorversion"' in help_panel
-    assert '$("bindicatorversion").textContent=v.application_version||"unknown"' in HTML
+    assert '$("bindicatorversion").textContent=(v.application_version||"unknown")' in HTML
+    assert 'v.application_commit&&v.application_commit!=="unknown"' in HTML
     assert 'https://buymeacoffee.com/stuliet' in coffee_panel
     assert 'Enjoying Bindicator?' in coffee_panel
     assert 'target="_blank" rel="noopener noreferrer"' in coffee_panel
@@ -1131,4 +1132,5 @@ priority: [blue]
     secrets.write_text("")
     result = Management(config_file, secrets, tmp_path).overview()
     assert result["application_version"] == version("bindicator")
+    assert result["application_commit"] == "unknown" or len(result["application_commit"]) >= 7
     assert "coffee" not in result
