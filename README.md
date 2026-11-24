@@ -14,6 +14,7 @@ provider engine. It runs on a machine available 24/7, such as the Bindicator hos
 
 - [Features](#features)
 - [Documentation](#documentation)
+- [Releases and changelog](#releases-and-changelog)
 - [Install and upgrade](#install-and-upgrade)
 - [First-time configuration](#first-time-configuration)
 - [Dashboard and calendar sources](#dashboard-and-calendar-sources)
@@ -57,6 +58,19 @@ provider engine. It runs on a machine available 24/7, such as the Bindicator hos
 | [Cloudflare CLI](docs/cloudflare-cli.md) | Optional Cloudflare command-line operations |
 | [Cloudflare infrastructure as code](docs/cloudflare-iac.md) | Declarative resource inventory and safe Terraform adoption plan |
 | [Public-release security checklist](docs/public-release.md) | Privacy review, secret/history scans, clean-snapshot publication process |
+
+## Releases and changelog
+
+- [Changelog](CHANGELOG.md) — notable changes by version.
+- [v0.1.0 release notes](docs/releases/v0.1.0.md) — first public release,
+  installation instructions, security considerations and limitations.
+- [GitHub releases](https://github.com/accidentalskeleton/bindicator/releases)
+  — downloadable source archives and release history.
+
+For reproducible installation after the first release is tagged, check out
+`v0.1.0` instead of installing whatever is currently on `main`.
+A tagged release identifies a fixed source revision; the Help tab also
+reports the installed Git commit when available.
 
 ## Install and upgrade
 
