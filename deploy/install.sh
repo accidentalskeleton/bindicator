@@ -49,7 +49,7 @@ if command -v git >/dev/null 2>&1; then
     fi
 fi
 if [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
-    printf '{"commit":"%s"}\\n' "$SOURCE_COMMIT" > /opt/bindicator/src/bindicator/_build_info.json
+    printf '{"commit":"%s"}\n' "$SOURCE_COMMIT" > /opt/bindicator/src/bindicator/_build_info.json
 else
     # Never keep a stale commit from a previous install.
     rm -f /opt/bindicator/src/bindicator/_build_info.json
