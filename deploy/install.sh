@@ -38,6 +38,24 @@ install -m 0644 "$SRC_DIR/pyproject.toml" /opt/bindicator/pyproject.toml
 # PEP 639 license-files metadata requires the file in the build root.
 install -m 0644 "$SRC_DIR/LICENSE" /opt/bindicator/LICENSE
 
+# Record the exact source commit INSIDE the installed Python package, since
+# /opt/bindicator contains no .git directory. Git is optional for tarball users.
+# Use an explicit safe.directory for root installing a user-owned checkout.
+SOURCE_COMMIT=""
+if command -v git >/dev/null 2>&1; then
+    REPO_ROOT="$(git -c safe.directory="$SRC_DIR" -C "$SRC_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+    if [[ "$REPO_ROOT" == "$SRC_DIR" ]]; then
+        SOURCE_COMMIT="$(git -c safe.directory="$SRC_DIR" -C "$SRC_DIR" rev-parse --verify HEAD 2>/dev/null || true)"
+    fi
+fi
+if [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
+    printf '{"commit":"%s"}\\n' "$SOURCE_COMMIT" > /opt/bindicator/src/bindicator/_build_info.json
+else
+    # Never keep a stale commit from a previous install.
+    rm -f /opt/bindicator/src/bindicator/_build_info.json
+fi
+chmod 0644 /opt/bindicator/src/bindicator/_build_info.json 2>/dev/null || true
+
 if [[ ! -f /etc/bindicator/config.yaml ]]; then
     install -o root -g bindicator -m 0660 \
         "$SRC_DIR/config.example.yaml" /etc/bindicator/config.yaml
